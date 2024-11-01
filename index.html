@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <h1>Snake</h1>
+    </div>
+    <div>
+        <canvas id="gameboard" width="625px" height="625px" alt="The Snake Game Board"></canvas>
+    </div>
+    <div class="buttons">
+        <button id="start-btn" onclick="playGame()">START GAME</button>
+        <button id="reset-btn" class="hidden" onclick="resetGame()">RESET GAME</button>
+        <button id="stop-btn" class="hidden" onclick="stopGame()">STOP GAME</button>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
