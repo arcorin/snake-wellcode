@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
+    <title>Practice</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <h1>Snake</h1>
+    <h1 class="centered">Game</h1>
+    <div class="buttons centered">
+        <button id="start-btn">Start Game</button>
+        <button id="pause-btn" class="hidden">Pause Game</button>
+        <button id="stop-btn" class="hidden">Stop Game</button>
     </div>
-    <div>
-        <canvas id="gameboard" width="625px" height="625px" alt="The Snake Game Board"></canvas>
-    </div>
-    <div class="buttons">
-        <button id="start-btn" onclick="playGame()">START GAME</button>
-        <button id="reset-btn" class="hidden" onclick="resetGame()">RESET GAME</button>
-        <button id="stop-btn" class="hidden" onclick="stopGame()">STOP GAME</button>
-    </div>
+    <div id="board" class="centered">
+        <canvas id="gameBoard" width="625px" height="625px" alt="The Snake Game Board"></canvas>
+    </div>"
     
+
     <script src="script.js"></script>
+    
 </body>
 </html>

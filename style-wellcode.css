@@ -1,0 +1,7 @@
+
+h1 { text-align: center; }
+
+div { display: flex; justify-content: center; align-items: center; }
+
+.buttons { display: flex; flex-direction: column; padding: 20px; }
+.hidden { display: none; } 
