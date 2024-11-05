@@ -7,20 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <h1 class="centered">SNAKE</h1>
-        <p id="message"></p>
+    <div class="vertical centered">
+        <h1 id="title" class="centered">THE SNAKE</h1>
+        
+        <div class="stats">
+            <ul class="centered">
+                <li id="lives"></li>
+                <li id="points"></li>
+                <li id="length"></li>
+            </ul>
+        </div>
     </div>
     
     <div id="board" class="centered">
         <canvas id="gameBoard" width="625px" height="625px" alt="The Snake Game Board"></canvas>
     </div>
+
+    <div class="centered">
+        <p id="message"></p>
+    </div>
     
     <div class="buttons centered">
-        <button id="start-btn">Start Game</button>
-        <button id="pause-btn" class="hidden">Pause Game</button>
-        <button id="reset-btn" class="hidden">Reset Game</button>
-        <button id="stop-btn" class="hidden">Stop Game</button>
+        <button id="start-btn" class="btn">Start Game</button>
+        <button id="pause-btn" class="btn hidden">Pause Game</button>
+        <button id="reset-btn" class="btn hidden">Reset Game</button>
+        <button id="stop-btn" class="btn hidden">Stop Game</button>
     </div>
 
     <script src="script.js"></script>

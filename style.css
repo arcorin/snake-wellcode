@@ -1,4 +1,14 @@
 
-.centered { display: flex; justify-content: center;  gap: 8px; padding: 20px; }
+.centered { display: flex; justify-content: center; }
+
+.vertical { flex-direction: column; }
+
+div.vertical.centered { position: relative; width: 100vw; }
+
+#message { position: relative; text-align: center; height: 2rem; color: red; font-size: 2.5rem; }
 
 .hidden { display: none; }
+
+ul { width: 1000px; margin: 24px auto 16px; gap: 180px; list-style-type: none; }
+
+.btn { margin: 16px 8px; padding: 4px 8px; font-size: 1.2rem; background-color: white; border: 2px outset gray; }

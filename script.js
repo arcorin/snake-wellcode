@@ -1,3 +1,28 @@
+let lives = 5;
+let points = 0;
+let length = 0;
+
+//
+const message = 
+document.getElementById("message");
+
+
+//
+const livesDisplay = 
+document.getElementById("lives");
+livesDisplay.innerText = `Lives: ${lives}`;
+
+//
+const pointsDisplay = 
+document.getElementById("points");
+pointsDisplay.innerText = `Lives: ${points}`;
+
+//
+const lengthDisplay = 
+document.getElementById("length");
+lengthDisplay.innerText = `Lives: ${length}`;
+
+
 // functionality for the start button
 const startBtn = document.getElementById("start-btn");
 startBtn.addEventListener("click", startGame);
@@ -45,6 +70,7 @@ let snake, intervalID, newHeadPosition, tail, stopConditions, food;
 let dx = 1;
 let dy = 0;
 
+
 // add functionality: move the snake when pressing the arrow keys
 document.addEventListener("keydown", keyPress);
 
@@ -80,37 +106,18 @@ function generateFood() {
 // - the stop button is clicked or 
 // - the snake hit the wall or itself
 function stopGame() {
-    document.getElementById("message").innerText = "Game Over";
+    console.log("stop");
+    // stop from execution the main function - playGame()
+    clearInterval(intervalID);
+
+    resetGame();
+
+    message.innerText = "Game Over";
+    
     // hide the stop and reset buttons, and display the start button
     stopBtn.classList.add("hidden");
     pauseBtn.classList.add("hidden");
     startBtn.classList.remove("hidden");
-
-    gameOn = true;
-
-    // stop from execution the main function - playGame()
-    clearInterval(intervalID);
-
-    // remove the filling color of the game board
-    ctx.clearRect(0, 0, TOTAL_BLOCKS * BLOCK_SIZE, TOTAL_BLOCKS * BLOCK_SIZE);
-
-    // remove the filling color of the snake
-    snake.forEach( (coords) => {
-        console.log("clear");
-        ctx.clearRect(coords.x * BLOCK_SIZE, coords.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    });
-
-    // remove the filling color of the tail
-    ctx.clearRect(tail.x * BLOCK_SIZE, tail.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-
-    // remove the filling color of the food
-    ctx.clearRect(food.x * BLOCK_SIZE, food.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    
-    snake = START_SNAKE;
-}
-
-
-function resetGame() {
 
 }
 
@@ -121,20 +128,48 @@ function pauseGame() {
     pauseBtn.classList.add("hidden");
     startBtn.classList.remove("hidden");
 
-    
-
     // stop the main function - playGame()
     clearInterval(intervalID);
 }
 
+
+function resetGame() {
+    console.log("reset");
+    message.innerText = "";
+    message.innerText = "";
+    gameOn = false;
+    
+    dx = 1;
+    dy = 0;
+
+    // remove the filling color of the game board
+    ctx.clearRect(0, 0, TOTAL_BLOCKS * BLOCK_SIZE, TOTAL_BLOCKS * BLOCK_SIZE);
+
+    // remove the filling color of the snake
+    snake.forEach( (coords) => {
+        ctx.clearRect(coords.x * BLOCK_SIZE, coords.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    });
+
+    // remove the filling color of the tail
+    ctx.clearRect(tail.x * BLOCK_SIZE, tail.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+
+    // remove the filling color of the food
+    ctx.clearRect(food.x * BLOCK_SIZE, food.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);  
+
+    snake = START_SNAKE;
+}
+
+
 // start game when: 
 // - the start button is clicked
 function startGame() {
+    console.log("start");
+
+    message.innerText = "";
+
     // display board
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, TOTAL_BLOCKS * BLOCK_SIZE, TOTAL_BLOCKS * BLOCK_SIZE);
-    
-    snake = START_SNAKE;
 
     generateFood();
 
@@ -152,7 +187,9 @@ function startGame() {
 // main function - display & move the snake
 function playGame() {
     if (gameOn) {
-        console.log("hello");
+        console.log("play");
+
+        snake = START_SNAKE;
 
         // (the snake moves by adding a new first element, and deleting the last element)
         // define the coordinates of the new first element (head) of the snake - where it will move next 
@@ -165,22 +202,24 @@ function playGame() {
         // display each element of the snake
         snake.forEach( (coords, index) => {
 
-            console.log(`x: ${coords.x} y: ${coords.y}`)
+            // console.log(`x: ${coords.x} y: ${coords.y}`)
 
+            // display snake
+            ctx.fillRect(coords.x * BLOCK_SIZE, coords.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            
             // define the stopping (game over) conditions:
             //  - the snake hits itself
             //  - the snake hits a wall
             stopConditions = newHeadPosition.x == (coords.x && newHeadPosition.y == coords.y && index != 0) || (coords.x == 0 || coords.x == 25) || (coords.y == 0 || coords.y == 25);
+
             
-            // the game stops if one of the stopping conditions is met  
-            if (stopConditions) {
-                stopGame();
-            } else if (!stopConditions) {
-                // if none of the stop coditions is true, the snake is displayed and moves
-                ctx.fillRect(coords.x * BLOCK_SIZE, coords.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-            };
         });
     
+        // the game stops if one of the stopping conditions is met  
+        if (stopConditions) {
+            stopGame();
+        }
+
         // move the snake by adding a new first element
         snake.unshift(newHeadPosition);
 
