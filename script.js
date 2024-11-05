@@ -15,12 +15,12 @@ livesDisplay.innerText = `Lives: ${lives}`;
 //
 const pointsDisplay = 
 document.getElementById("points");
-pointsDisplay.innerText = `Lives: ${points}`;
+pointsDisplay.innerText = `Points: ${points}`;
 
 //
 const lengthDisplay = 
 document.getElementById("length");
-lengthDisplay.innerText = `Lives: ${length}`;
+lengthDisplay.innerText = `Length: +${length}`;
 
 
 // functionality for the start button
@@ -46,6 +46,7 @@ const BLOCK_SIZE = 25;
 const canvas = document.getElementById("gameBoard");
 
 // the snake is initialized in the middle of the board when the game starts
+/*
 const START_SNAKE = [
     { x: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS), y: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS)},
     { x: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS) - 1, y: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS) },
@@ -53,6 +54,15 @@ const START_SNAKE = [
     { x: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS) - 3, y: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS) },
     { x: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS) - 4, y: Math.floor((TOTAL_BLOCKS / 2) % TOTAL_BLOCKS) }
 ];
+*/
+const START_SNAKE = [
+    { x: ( 12 % TOTAL_BLOCKS), y: ( 12 % TOTAL_BLOCKS)},
+    { x: ( 12 % TOTAL_BLOCKS) - 1, y: ( 12 % TOTAL_BLOCKS) },
+    { x: ( 12 % TOTAL_BLOCKS) - 2, y: ( 12 % TOTAL_BLOCKS) },
+    { x: ( 12 % TOTAL_BLOCKS) - 3, y: ( 12 % TOTAL_BLOCKS) },
+    { x: ( 12 % TOTAL_BLOCKS) - 4, y: ( 12 % TOTAL_BLOCKS) }
+];
+
 
 let ctx;
 if (canvas.getContext) {
@@ -97,6 +107,14 @@ function randomInt(max) {
 
 function generateFood() {
     food = { x: randomInt(TOTAL_BLOCKS), y: randomInt(TOTAL_BLOCKS)};
+    /*
+    snake.forEach( coords => {
+        if (food.x == coords.x && food.y == coords.y) {
+            generateFood();
+        }
+    });
+    */
+    
     ctx.fillStyle = "yellow";
     ctx.fillRect(food.x * BLOCK_SIZE, food.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 
@@ -199,6 +217,7 @@ function playGame() {
         // display the snake by filling each of its element
         ctx.fillStyle = "lightgreen";
 
+
         // display each element of the snake
         snake.forEach( (coords, index) => {
 
@@ -210,21 +229,30 @@ function playGame() {
             // define the stopping (game over) conditions:
             //  - the snake hits itself
             //  - the snake hits a wall
-            stopConditions = newHeadPosition.x == (coords.x && newHeadPosition.y == coords.y && index != 0) || (coords.x == 0 || coords.x == 25) || (coords.y == 0 || coords.y == 25);
-
+            stopConditions = (newHeadPosition.x == coords.x && newHeadPosition.y == coords.y && index != 0) || (coords.x == -1 || coords.x == 25) || (coords.y == -1 || coords.y == 25);
             
         });
     
         // the game stops if one of the stopping conditions is met  
         if (stopConditions) {
-            stopGame();
+            lives--;
+            livesDisplay.innerText = `Lives: ${lives}`;
+            if (lives < 1) {
+                gameOn = false;
+                stopGame();
+            };
         }
 
         // move the snake by adding a new first element
         snake.unshift(newHeadPosition);
 
         if (snake[0].x == food.x && snake[0].y == food.y) {
-            
+
+            points += 10;
+            length++;
+            pointsDisplay.innerText = `Points: ${points}`;
+            lengthDisplay.innerText = `Length: +${length}`;
+
             ctx.fillStyle = "lightgreen"
             ctx.fillRect(food.x * BLOCK_SIZE, food.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             generateFood();
@@ -236,8 +264,11 @@ function playGame() {
             console.log(`tail x: ${tail.x} y: ${tail.y}`);
 
             // fill the last element of the snake with the color of the game board
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "gray";
             ctx.fillRect(tail.x * BLOCK_SIZE, tail.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+
+            ctx.fillStyle = "black";
+            setTimeout( () => ctx.fillRect(tail.x * BLOCK_SIZE, tail.y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 100);
 
         }
     }
